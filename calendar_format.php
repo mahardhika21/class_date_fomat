@@ -5,8 +5,6 @@ class calendar_format
 //return : Rabu, 20 april 2016
 function full_long_date($cal, $time=FALSE, $fmt='us')
 {
-    $CI =& get_instance();
-    $CI->load->language('calendar');
     $hari=date('w', strtotime($cal));
     $arr_day=array('Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu');
     $hari=$arr_day[$hari];
@@ -16,8 +14,6 @@ function full_long_date($cal, $time=FALSE, $fmt='us')
 //return : Rabu, 20 apr 2016
 function full_medium_date($cal, $time=FALSE, $fmt='us')
 {
-    $CI =& get_instance();
-    $CI->load->language('calendar');
     $hari=date('w', strtotime($cal));
     $arr_day=array('Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu');
     $hari=$arr_day[$hari];
@@ -27,8 +23,6 @@ function full_medium_date($cal, $time=FALSE, $fmt='us')
 //return : Rabu, 20 apr
 function full_medium_MD($cal, $time=FALSE, $fmt='us')
 {
-    $CI =& get_instance();
-    $CI->load->language('calendar');
     $hari=date('w', strtotime($cal));
     $arr_day=array('Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu');
     $hari=$arr_day[$hari];
@@ -45,8 +39,6 @@ function full_medium_MD($cal, $time=FALSE, $fmt='us')
 //return : 20 april 2016
 function long_date($cal, $time=FALSE, $fmt='us')
 {
-    $CI =& get_instance();
-    $CI->load->language('calendar');
     $arr_month = array(
         1=>'januari', 2=>'februari', 3=>'maret',
         4=>'april', 5=>'mei', 6=>'juni',
@@ -71,8 +63,6 @@ function medium_date($cal, $time=FALSE, $fmt='us')
 
 function long_MY($cal)
 {
-    $CI =& get_instance();
-    $CI->load->language('calendar');
     $arr_month = array(
         1=>'januari', 2=>'februari', 3=>'maret',
         4=>'april', 5=>'mei', 6=>'juni',
@@ -97,8 +87,6 @@ function medium_MY($cal)
 
 function medium_MD($cal, $time=FALSE, $fmt='us')
 {
-    $CI =& get_instance();
-    $CI->load->language('calendar');
     $arr_month = array(
         1=>'jan', 2=>'feb', 3=>'mar',
         4=>'apr', 5=>'mei', 6=>'jun',
@@ -110,14 +98,12 @@ function medium_MD($cal, $time=FALSE, $fmt='us')
 
 function range_medium_date($first_cal, $second_cal)
 {
-    $CI =& get_instance();
     if(!empty($first_cal) && !empty($second_cal)){
         $year1 = date('Y', strtotime($first_cal));
         $month1 = date('n', strtotime($first_cal));
 
         $year2 = date('Y', strtotime($second_cal));
         $month2 = date('n', strtotime($second_cal));
-        $CI->load->language('calendar');
         $arr_month = array(
         1=>'jan', 2=>'feb', 3=>'mar',
         4=>'apr', 5=>'mei', 6=>'jun',
@@ -144,14 +130,12 @@ function range_medium_date($first_cal, $second_cal)
 
 function range_long_date($first_cal, $second_cal)
 {
-    $CI =& get_instance();
     if(!empty($first_cal) && !empty($second_cal)){
         $year1 = date('Y', strtotime($first_cal));
         $month1 = date('n', strtotime($first_cal));
 
         $year2 = date('Y', strtotime($second_cal));
         $month2 = date('n', strtotime($second_cal));
-        $CI->load->language('calendar');
         $arr_month = array(
         1=>'januari', 2=>'februari', 3=>'maret',
         4=>'april', 5=>'mei', 6=>'juni',
@@ -196,7 +180,6 @@ function full_days($days)
 function medium_days($days)
 {
     if(!empty($days)){
-        $CI =& get_instance();
         $input = array();
         $day = array(
             0=>'min', 1=>'sen', 2=>'sel',
@@ -212,8 +195,6 @@ function medium_days($days)
 
 function medium_month($cal)
 {
-    $CI =& get_instance();
-    $CI->load->language('calendar');
     $arr_month = array(
         1=>'jan', 2=>'feb', 3=>'mar',
         4=>'apr', 5=>'mei', 6=>'jun',
@@ -225,8 +206,6 @@ function medium_month($cal)
 
 function long_month($cal)
 {
-    $CI =& get_instance();
-    $CI->load->language('calendar');
     $arr_month = array(
         1=>'januari', 2=>'februari', 3=>'maret',
         4=>'april', 5=>'mei', 6=>'juni',
@@ -235,15 +214,6 @@ function long_month($cal)
     return $arr_month[date('n', strtotime($cal))];
 }
 
-function get_airport($id=false, $field) {
-    
-    $CI = & get_instance();
-    $CI->db->where('iata_code', $id);
-    $result = $CI->db->get('airport')->row();
-    
-    return $result->$field;
-}
-//untuk menghitung selisih waktu
  function get_selisih_jam($jam_masuk,$jam_keluar) 
  {
       $awalss = substr($jam_masuk,0, 2);
@@ -293,8 +263,6 @@ function get_airport($id=false, $field) {
               return $jml_jam." jam ".$sisamenit2." menit"; 
           }
       }
-      
-      
       
  }
  
