@@ -1,6 +1,7 @@
 <?php
+namespace App\Http\Services;
 
-class calendar_format 
+class Calendar
 {
 //return : Rabu, 20 april 2016
 function full_long_date($cal, $time=FALSE, $fmt='us')
@@ -8,7 +9,7 @@ function full_long_date($cal, $time=FALSE, $fmt='us')
     $hari=date('w', strtotime($cal));
     $arr_day=array('Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu');
     $hari=$arr_day[$hari];
-    return $hari.', '.long_date($cal, $time, $fmt);
+    return $hari.', '.$this->long_date($cal, $time, $fmt);
 }
 
 //return : Rabu, 20 apr 2016
@@ -17,7 +18,7 @@ function full_medium_date($cal, $time=FALSE, $fmt='us')
     $hari=date('w', strtotime($cal));
     $arr_day=array('Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu');
     $hari=$arr_day[$hari];
-    return $hari.', '.medium_date($cal, $time, $fmt);
+    return $hari.', '.$this->medium_date($cal, $time, $fmt);
 }
 
 //return : Rabu, 20 apr
@@ -26,14 +27,14 @@ function full_medium_MD($cal, $time=FALSE, $fmt='us')
     $hari=date('w', strtotime($cal));
     $arr_day=array('Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu');
     $hari=$arr_day[$hari];
-    
+
     $arr_month = array(
         1=>'jan', 2=>'feb', 3=>'mar',
         4=>'apr', 5=>'mei', 6=>'jun',
         7=>'jul', 8=>'agu', 9=>'sep',
         10=>'okt', 11=>'nov', 12=>'des');
     return $hari.', '.date('j', strtotime($cal)).' '.$arr_month[date('n', strtotime($cal))].($time==TRUE?' '.date($fmt=='us'?'H:i A':'H:i', strtotime($cal)):NULL);
-    
+
 }
 
 //return : 20 april 2016
@@ -51,7 +52,6 @@ function long_date($cal, $time=FALSE, $fmt='us')
 function medium_date($cal, $time=FALSE, $fmt='us')
 {
     $CI =& get_instance();
-    $CI->load->language('calendar');
     $arr_month = array(
         1=>'jan', 2=>'feb', 3=>'mar',
         4=>'apr', 5=>'mei', 6=>'jun',
@@ -214,58 +214,58 @@ function long_month($cal)
     return $arr_month[date('n', strtotime($cal))];
 }
 
- function get_selisih_jam($jam_masuk,$jam_keluar) 
+ function get_selisih_jam($jam_masuk,$jam_keluar)
  {
       $awalss = substr($jam_masuk,0, 2);
       $akhirss = substr($jam_keluar,0, 2);
-      
+
       if($awalss > $akhirss){
           $a='24:00:00';
-          list($h_a,$m_a,$s_a) = explode(":",$jam_masuk); 
-          $dtAwal_a = mktime($h_a,$m_a,$s_a,"1","1","1"); 
-          list($h_a,$m_a,$s_a) = explode(":",$a); 
-          $dtAkhir_a = mktime($h_a,$m_a,$s_a,"1","1","1"); 
-          $dtSelisih_a = $dtAkhir_a-$dtAwal_a; 
-          
+          list($h_a,$m_a,$s_a) = explode(":",$jam_masuk);
+          $dtAwal_a = mktime($h_a,$m_a,$s_a,"1","1","1");
+          list($h_a,$m_a,$s_a) = explode(":",$a);
+          $dtAkhir_a = mktime($h_a,$m_a,$s_a,"1","1","1");
+          $dtSelisih_a = $dtAkhir_a-$dtAwal_a;
+
           $b='00:00:00';
-          list($h_b,$m_b,$s_b) = explode(":",$b); 
-          $dtAwal_b = mktime($h_b,$m_b,$s_b,"1","1","1"); 
-          list($h_b,$m_b,$s_b) = explode(":",$jam_keluar); 
-          $dtAkhir_b = mktime($h_b,$m_b,$s_b,"1","1","1"); 
-          $dtSelisih_b = $dtAkhir_b-$dtAwal_b; 
-          
-          $dtSelisih = $dtSelisih_a+$dtSelisih_b; 
-          $totalmenit=$dtSelisih/60; 
-          $jam =explode(".",$totalmenit/60); 
-          $sisamenit=($totalmenit/60)-$jam[0]; 
-          $sisamenit2=floor($sisamenit*60); 
-          $jml_jam=$jam[0]; 
+          list($h_b,$m_b,$s_b) = explode(":",$b);
+          $dtAwal_b = mktime($h_b,$m_b,$s_b,"1","1","1");
+          list($h_b,$m_b,$s_b) = explode(":",$jam_keluar);
+          $dtAkhir_b = mktime($h_b,$m_b,$s_b,"1","1","1");
+          $dtSelisih_b = $dtAkhir_b-$dtAwal_b;
+
+          $dtSelisih = $dtSelisih_a+$dtSelisih_b;
+          $totalmenit=$dtSelisih/60;
+          $jam =explode(".",$totalmenit/60);
+          $sisamenit=($totalmenit/60)-$jam[0];
+          $sisamenit2=floor($sisamenit*60);
+          $jml_jam=$jam[0];
           if ($jml_jam==0) {
-              return $sisamenit2." menit"; 
+              return $sisamenit2." menit";
           } else {
-              return $jml_jam." jam ".$sisamenit2." menit"; 
+              return $jml_jam." jam ".$sisamenit2." menit";
           }
-          
+
       }else {
-          list($h,$m,$s) = explode(":",$jam_masuk); 
-          $dtAwal = mktime($h,$m,$s,"1","1","1"); 
-          list($h,$m,$s) = explode(":",$jam_keluar); 
-          $dtAkhir = mktime($h,$m,$s,"1","1","1"); 
-          $dtSelisih = $dtAkhir-$dtAwal; 
-          $totalmenit=$dtSelisih/60; 
-          $jam =explode(".",$totalmenit/60); 
-          $sisamenit=($totalmenit/60)-$jam[0]; 
-          $sisamenit2=floor($sisamenit*60); 
-          $jml_jam=$jam[0]; 
+          list($h,$m,$s) = explode(":",$jam_masuk);
+          $dtAwal = mktime($h,$m,$s,"1","1","1");
+          list($h,$m,$s) = explode(":",$jam_keluar);
+          $dtAkhir = mktime($h,$m,$s,"1","1","1");
+          $dtSelisih = $dtAkhir-$dtAwal;
+          $totalmenit=$dtSelisih/60;
+          $jam =explode(".",$totalmenit/60);
+          $sisamenit=($totalmenit/60)-$jam[0];
+          $sisamenit2=floor($sisamenit*60);
+          $jml_jam=$jam[0];
           if ($jml_jam==0) {
-              return $sisamenit2." menit"; 
+              return $sisamenit2." menit";
           } else {
-              return $jml_jam." jam ".$sisamenit2." menit"; 
+              return $jml_jam." jam ".$sisamenit2." menit";
           }
       }
-      
+
  }
- 
+
  //return : Rabu, 20 apr 2018
 function full_medium_full_ind($cal, $time=FALSE, $fmt='us')
 {
@@ -274,14 +274,14 @@ function full_medium_full_ind($cal, $time=FALSE, $fmt='us')
     $hari=date('w', strtotime($cal));
     $arr_day=array('Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu');
     $hari=$arr_day[$hari];
-    
+
     $arr_month = array(
         1=>'jan', 2=>'feb', 3=>'mar',
         4=>'apr', 5=>'mei', 6=>'jun',
         7=>'jul', 8=>'agu', 9=>'sep',
         10=>'okt', 11=>'nov', 12=>'des');
     return $hari.', '.date('j', strtotime($cal)).' '.$arr_month[date('n', strtotime($cal))].' '.date('Y', strtotime($cal)).($time==TRUE?' '.date($fmt=='us'?'H:i A':'H:i', strtotime($cal)):NULL);
-    
+
 }
 
 
